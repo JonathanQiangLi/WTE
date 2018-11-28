@@ -1,24 +1,14 @@
 import sbt.Keys.sourceDirectory
 
-
-val projname = "ise"
-val ver = "0.0.1"
-organization := "ai.wer"
-
-
 // coverageMinimum := 50
 // coverageFailOnMinimum := true
 // coverageExcludedPackages := "<empty>;xyz.*;.*abc.*;aaa\\.bbb\\..*"
 // javaOptions in Test ++= Seq("-Xmx12g", "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n")
 
-EclipseKeys.eclipseOutput := Some("target/scala-2.11/classes")  // share the binary folder with sbt
-fork in Test := true  // this is needed for the ClassLoader to work under `sbt test`
-
-resolvers += "jitpack" at "https://jitpack.io"
-
+val sparkVersion = "2.3.1"
 lazy val commonSettings = Seq(
 
-version := ver,
+version := "0.0.1",
 scalaVersion := "2.11.8",
 EclipseKeys.withSource := true,
 // parallelExecution in test := false,
@@ -30,28 +20,31 @@ assemblyMergeStrategy in assembly := {
 ) ++ packAutoSettings
 
 lazy val project = Project(
-id = projname,
+id = "projectId", 
 base = file(".")).settings(commonSettings).settings(
-name := projname,
+name := "wte",
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-sql" % "2.0.2",
-  "org.apache.spark" %% "spark-core" % "2.0.2",
-  "org.apache.spark" %% "spark-mllib" %"2.0.2",
-  "com.johnsnowlabs.nlp" %% "spark-nlp" %"1.7.3",
-  "org.json4s" %% "json4s-native" % "3.2.11",
-  "org.json4s" %% "json4s-jackson" % "3.2.11",
-  "org.apache.commons" % "commons-lang3" % "3.8",
+  "org.apache.spark" % "spark-sql_2.11" % sparkVersion,
+  "org.apache.spark" % "spark-core_2.11" % sparkVersion,
+  "org.apache.spark" % "spark-mllib_2.11" % sparkVersion,
+  // "org.apache.spark" % "spark-graphx_2.11" % sparkVersion,
+  // "org.scalanlp" %% "breeze-natives" % "0.12",
+  
+//  "org.apache.httpcomponents" % "httpclient" % "4.5.1",
+//  "org.skife.com.typesafe.config" % "typesafe-config" % "0.3.0",
+//  "com.google.code.gson" % "gson" % "1.7.1",
+//  "org.apache.hadoop" % "hadoop-azure" % "2.7.3",
+//  "org.apache.commons" % "commons-math3" % "3.6.1",
 
-  "com.typesafe.akka" %% "akka-http"   % "10.1.1",
-  "com.typesafe.akka" %% "akka-stream" % "2.5.11",
-  "io.spray" %%  "spray-json" % "1.3.3",
-  "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.1",
+//  "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
+
+//  "org.scalikejdbc" %% "scalikejdbc" % "3.0.1",
+//  "org.postgresql" % "postgresql" % "42.1.1",
+  
   //*********** test only ****************
   "org.mockito" % "mockito-core" % "1.8.5" % "test",
   "junit" % "junit" % "4.10" % "test",
   "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
-  "com.typesafe.akka" %% "akka-testkit" % "2.5.11" % "test",
-  "com.github.mrpowers" % "spark-fast-tests" % "v0.16.0" % "test")
+  "org.scalacheck" %% "scalacheck" % "1.12.4" % "test")
 )
